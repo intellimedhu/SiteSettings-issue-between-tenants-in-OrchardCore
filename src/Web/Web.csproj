@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.8" />
+    <PackageReference Include="OrchardCore.Logging.NLog" Version="1.0.0-rc2-13450" />
+    <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="1.0.0-rc2-13450" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Modules\Common\Common.csproj" />
+    <ProjectReference Include="..\Modules\Tenant1\Tenant1.csproj" />
+    <ProjectReference Include="..\Modules\Tenant2\Tenant2.csproj" />
+  </ItemGroup>
+
+</Project>
