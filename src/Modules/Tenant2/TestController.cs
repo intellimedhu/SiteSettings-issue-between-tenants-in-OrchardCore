@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Entities;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Settings;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Tenant2
@@ -22,13 +21,19 @@ namespace Tenant2
 
         public async Task<string> Index()
         {
-            var tenantShellContext = _shellHost.ListShellContexts().FirstOrDefault(x => x.Settings.Name == "Tenant1");
-            using var scope = tenantShellContext.CreateScope();
-            var siteService = scope.ServiceProvider.GetRequiredService<ISiteService>();
-            var site = await siteService.GetSiteSettingsAsync();
-            var mySettings = site.As<MySettings>();
+            var scope = await _shellHost.GetScopeAsync("Tenant1");
 
-            return $"My int property is: {mySettings.IntProperty}";
+            var result = 0;
+            await scope.UsingAsync(async scope =>
+            {
+                var siteService = scope.ServiceProvider.GetRequiredService<ISiteService>();
+                var site = await siteService.GetSiteSettingsAsync();
+                var mySettings = site.As<MySettings>();
+
+                result = mySettings.IntProperty;
+            });
+
+            return $"My int property is: {result}";
         }
     }
 }
